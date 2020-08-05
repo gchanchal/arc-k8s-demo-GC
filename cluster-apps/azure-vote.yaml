@@ -5,12 +5,12 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: nginx
+      app: pmoDashboard
   replicas: 2 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: nginx
+        app: pmoDashboard
     spec:
       containers:
       - name: pmo-dashboard
