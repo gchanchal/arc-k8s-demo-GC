@@ -1,89 +1,70 @@
-apiVersion: apps/v1
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: azure-vote-back
+  name: reporting-dashboard-back-gc
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: azure-vote-back
+      app: reporting-dashboard-back
+  replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: azure-vote-back
+        app: reporting-dashboard-back-gc
     spec:
-      nodeSelector:
-        kubernetes.io/arch: amd64
-        kubernetes.io/os: linux
       containers:
-      - name: azure-vote-back
-        image: redis
+      - name: reporting-dashboard-back
+        image: gchanchal/gauravs:back-v1.0
+        imagePullPolicy: Always
         ports:
-        - containerPort: 6379
-          name: redis
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+        - containerPort: 9000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: azure-vote-back
+  name: reporting-dashboard-back-gc
 spec:
+  type: NodePort
   ports:
-  - port: 6379
+  - port: 9000
+    protocol: TCP
+    targetPort: 9000
+    nodePort: 30123
   selector:
-    app: azure-vote-back
+    app: reporting-dashboard-back-gc
+​
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: azure-vote-front
+  name: reporting-dashboard-front-gc
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: azure-vote-front
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  minReadySeconds: 5 
+      app: reporting-dashboard-front-gc
+  replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: azure-vote-front
+        app: reporting-dashboard-front-gc
     spec:
-      nodeSelector:
-        kubernetes.io/arch: amd64
-        kubernetes.io/os: linux
       containers:
-      - name: azure-vote-front
-        image: microsoft/azure-vote-front:v1
+      - name: reporting-dashboard-front
+        image: gchanchal/gauravs:front-v1.0
+        imagePullPolicy: Always
         ports:
-        - containerPort: 80
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-        env:
-        - name: REDIS
-          value: "azure-vote-back"
+        - containerPort: 3000
+​
 ---
+​
 apiVersion: v1
 kind: Service
 metadata:
-  name: azure-vote-front
+  name: reporting-dashboard-front-gc
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
-  - port: 80
+  - port: 3000
+    protocol: TCP
   selector:
-    app: azure-vote-front
+    app: reporting-dashboard-front-gc
