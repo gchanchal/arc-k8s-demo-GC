@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: reporting-dashboard-back
+      app: reporting-dashboard-back-gc
   replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
@@ -13,7 +13,7 @@ spec:
         app: reporting-dashboard-back-gc
     spec:
       containers:
-      - name: reporting-dashboard-back
+      - name: reporting-dashboard-back-gc
         image: gchanchal/gauravs:back-v1.0
         imagePullPolicy: Always
         ports:
@@ -49,7 +49,7 @@ spec:
         app: reporting-dashboard-front-gc
     spec:
       containers:
-      - name: reporting-dashboard-front
+      - name: reporting-dashboard-front-gc
         image: gchanchal/gauravs:front-v1.0
         imagePullPolicy: Always
         ports:
