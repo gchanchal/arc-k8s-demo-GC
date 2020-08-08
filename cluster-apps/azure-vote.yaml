@@ -1,19 +1,19 @@
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: reporting-dashboard-back-gc
+  name: reporting-dashboard-back
 spec:
   selector:
     matchLabels:
-      app: reporting-dashboard-back-gc
+      app: reporting-dashboard-back
   replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: reporting-dashboard-back-gc
+        app: reporting-dashboard-back
     spec:
       containers:
-      - name: reporting-dashboard-back-gc
+      - name: reporting-dashboard-back
         image: gchanchal/gauravs:back-v1.0
         imagePullPolicy: Always
         ports:
@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: reporting-dashboard-back-gc
+  name: reporting-dashboard-back
 spec:
   type: NodePort
   ports:
@@ -31,40 +31,37 @@ spec:
     targetPort: 9000
     nodePort: 30123
   selector:
-    app: reporting-dashboard-back-gc
-​
+    app: reporting-dashboard-back
 ---
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: reporting-dashboard-front-gc
+  name: reporting-dashboard-front
 spec:
   selector:
     matchLabels:
-      app: reporting-dashboard-front-gc
+      app: reporting-dashboard-front
   replicas: 1 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: reporting-dashboard-front-gc
+        app: reporting-dashboard-front
     spec:
       containers:
-      - name: reporting-dashboard-front-gc
+      - name: reporting-dashboard-front
         image: gchanchal/gauravs:front-v1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
-​
 ---
-​
 apiVersion: v1
 kind: Service
 metadata:
-  name: reporting-dashboard-front-gc
+  name: reporting-dashboard-front
 spec:
   type: NodePort
   ports:
   - port: 3000
     protocol: TCP
   selector:
-    app: reporting-dashboard-front-gc
+    app: reporting-dashboard-front
