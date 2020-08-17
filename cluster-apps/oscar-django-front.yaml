@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: oscar-django-service
+  name: oscar-django-service-202008131653
   labels:
     app: django
     component: oscar
